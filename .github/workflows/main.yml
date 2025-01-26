@@ -1,0 +1,38 @@
+name: Run JPF
+
+on:
+  push:
+
+jobs:
+  run-jpf:
+    name: '${{ matrix.os }}'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-latest, windows-latest]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: dbd3c06ca7c34918981ad70f1b123824f287adcf
+  
+    - name: Set up JDK 17 for project
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: maven
+
+    - name: Build project with JDK 17
+      run: mvn clean install -DskipTests
+
+    - name: Set up JDK 11 for JPF
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    - name: run tracemop
+        uses: SoftEngResearch/tracemop@master
+
+
