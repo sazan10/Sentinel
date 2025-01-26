@@ -34,5 +34,10 @@ jobs:
         java-version: '11'
     - name: run tracemop
       uses: SoftEngResearch/tracemop@master
+    - name: Upload Traces
+      uses: actions/upload-artifact@v4
+      with:
+        name: traces
+        path: '/home/runner/work/Sentinel/Sentinel/traces/*'
 
 
